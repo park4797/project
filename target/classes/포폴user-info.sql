@@ -1,0 +1,40 @@
+-- user info 작업(어떤 홈페이지를 사용할건지 확인후 작업)
+CREATE TABLE MBSP_TBL(
+        MBSP_ID             VARCHAR2(15),
+        MBSP_NAME           VARCHAR2(30)            NOT NULL,
+        MBSP_EMAIL          VARCHAR2(50)            NOT NULL,
+        MBSP_PASSWORD       CHAR(60)               NOT NULL,
+        MBSP_ZIPCODE        CHAR(5)                 NOT NULL,
+        MBSP_ADDR           VARCHAR2(100)            NOT NULL,
+        MBSP_DEADDR         VARCHAR2(100)            NOT NULL,
+        MBSP_PHONE          VARCHAR2(15)            NOT NULL,
+        MBSP_POINT          NUMBER DEFAULT 0        NOT NULL,
+        MBSP_LASTLOGIN      DATE DEFAULT SYSDATE    NOT NULL,
+        MBSP_DATESUB        DATE DEFAULT SYSDATE    NOT NULL,
+        MBSP_UPDATEDATE     DATE DEFAULT SYSDATE    NOT NULL
+);
+
+ALTER TABLE MBSP_TBL
+ADD CONSTRAINT PK_MBSP_ID PRIMARY KEY (MBSP_ID);
+
+INSERT INTO MBSP_TBL(MBSP_ID, MBSP_NAME, MBSP_EMAIL, MBSP_PASSWORD, MBSP_ZIPCODE, MBSP_ADDR, MBSP_DEADDR, MBSP_PHONE)
+VALUES(#{} ~);
+
+SELECT * FROM MBSP_TBL;
+
+SELECT * FROM MBSP_TBL WHERE MBSP_ID = 'user01' and MBSP_PASSWORD = '1234';
+
+SELECT MBSP_ID, MBSP_NAME, MBSP_EMAIL, MBSP_PASSWORD, MBSP_ZIPCODE, MBSP_ADDR, MBSP_DEADDR, MBSP_PHONE FROM MBSP_TBL WHERE MBSP_ID = 'user01';
+
+UPDATE MBSP_TBL
+    SET MBSP_EMAIL = #{mbsp_email},
+        MBSP_ZIPCODE = #{mbsp_zipcode},
+        MBSP_ADDR = #{mbsp_addr},
+        MBSP_DEADDR = #{mbsp_deaddr},
+        MBSP_PHONE = #{mbsp_phone}
+WHERE MBSP_ID = #{mbsp_id};
+
+DELETE FROM
+    MBSP_TBL
+WHERE
+    MBSP_ID = #{mpsp_id}
