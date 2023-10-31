@@ -6,7 +6,44 @@
 <mapper namespace="com.project.mapper.BoardMapper">
 
 	<insert id="register" parameterType="com.project.domain.BoardVO">
-		INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
-		VALUES(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
+		INSERT INTO
+			BOARD(BNO, TITLE, CONTENT, WRITER)
+		VALUES
+			(SEQ_BOARD.NEXTVAL, #{title}, #{content}, #{writer})
 	</insert>
+	<!--
+	<select id="getList" resultType="com.project.domain.BoardVO" parameterType="com.project.domain.BoardVO">
+		SELECT
+			BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE, VIEWCOUNT
+		FROM
+			BOARD
+		ORDER BY
+			BNO DESC
+	</select>
+	 -->
+	 <select id="getListWithPaging" resultType="com.project.domain.BoardVO" parameterType="com.project.domain.Criteria">
+	 	<![CDATA[
+		SELECT
+			BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+		FROM (
+		      SELECT /*+INDEX_DESC(board pk_board) */
+		      	ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+		      FROM 
+		      	BOARD
+		      WHERE
+			    ROWNUM <= #{pagenum} * #{amount}
+			 )
+		WHERE
+			rn > (#{pagenum} -1) * #{amount}
+		]]>
+	 </select>
+	 
+	 <select id="getTotalCount" resultType="int" parameterType="com.project.domain.Criteria">
+ 		SELECT
+ 			COUNT(*)
+ 		FROM
+ 			BOARD
+ 		WHERE
+ 			BNO > 0
+	</select>
 </mapper>
