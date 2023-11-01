@@ -71,7 +71,7 @@
 											<th style="width : 20%">등록일</th>
 											<th style="width : 10%">조회수</th>
 										</tr>
-										<!-- list 작업이므로 for문 사용  -->
+										<!-- list 작업이므로 for문 사용 list에 대한 정보를 board 변수에 담는다  -->
 										<c:forEach items="${list}" var="board">
 											<tr>
 												<td>${board.bno}</td>
@@ -90,32 +90,40 @@
 									<div class="col-6">
 										<nav aria-label="...">
 											<ul class="pagination">
-												
+
 												<c:if test="${pageMaker.prev}">
 													<li class="page-item">
 														<a href="/board/list?pageNum=${pageMaker.startPage - 1}" class="page-link">Previous</a>
 													</li>
 												</c:if>
-												
 												<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="num">
-													<li class='page-item ${pageMaker.cri.pageNum == num ? "active":"" }' aria-current="page">
+													<li class='page-item ${pageMaker.cri.pageNum == num ? "active" : ""}' aria-current="page">
 														<a class="page-link movepage" href="#" data-page="${num}">${num}</a>
 													</li>
 												</c:forEach>
-												
+
 												<c:if test="${pageMaker.next}">
 													<li class="page-item">
 														<a href="/board/list?pageNum=${pageMaker.endPage + 1}" class="page-link" href="#">Next</a>
 													</li>
 												</c:if>
-				
 											</ul>
 										</nav>
 									</div>
 									<div class="col-6">
-										
-										<!-- 1) 페이지번호 클릭시 사용 [이전] 1 2 3 4 5 [다음], action="/board/list"-->
-										<!-- 2) 목록에서 제목 클릭시 사용, actionForm.setAttribute("action", "/board/get");-->
+										<form action="/board/list" method="get">
+											<input type="text" name="keyword" value="${pageMaker.cri.keyword}" />
+											<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}" />
+											<input type="hidden" name="amount" value="${pageMaker.cri.amount}" />
+											<button type="submit" class="btn btn-primary">검색</button>
+										</form>
+										<form id="actionForm" action="/board/list" method="get">
+											<input type="hidden" name="pageNum" id="pageNum" value="${pageMaker.cri.pageNum}" />
+											<input type="hidden" name="amount" id="amount" value="${pageMaker.cri.amount}" />
+											<input type="hidden" name="type" id="type" value="${pageMaker.cri.type}" />
+											<input type="hidden" name="keyword" id="keyword" value="${pageMaker.cri.keyword}" />
+											<input type="hidden" name="bno" id="bno" />
+										</form>
 									</div>
 								</div>
 								<a class="btn btn-primary" href="/board/register" role="button">글쓰기</a>

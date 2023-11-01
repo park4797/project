@@ -39,6 +39,9 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	
+	// /board/list?pageNum=2&amount=10
+	
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 
@@ -47,10 +50,11 @@ public class BoardController {
 //		List<BoardVO> list = boardService.getList(vo);
 		
 		// 1) 페이지에 보여줄 목록데이터
+		// 목록데이터와 페이지를 출력하려면 cri 매개변수를 가지고 있으므로
 		List<BoardVO> list = boardService.getListWithPaging(cri);
 		model.addAttribute("list", list);
 		
-		// 2) 페이징 기능 PageDTO 구성
+		// 2) 페이징 기능 PageDTO 구성(페이지 번호에 기능 구현)
 		int total = boardService.getTotalCount(cri);
 		
 		log.info("데이터 갯수" + total);
