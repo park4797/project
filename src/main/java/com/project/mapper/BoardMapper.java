@@ -11,7 +11,11 @@ public interface BoardMapper {
 	
 //	List<BoardVO> getList(BoardVO vo);
 	
+	// 목록데이터 + 페이징
 	List<BoardVO> getListWithPaging(Criteria cri);
 	
 	int getTotalCount(Criteria cri);
+	
+	// 게시물 읽기
+	BoardVO get(Long bno);
 }

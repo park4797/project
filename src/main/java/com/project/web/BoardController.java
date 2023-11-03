@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.domain.BoardVO;
 import com.project.domain.Criteria;
@@ -57,9 +59,20 @@ public class BoardController {
 		// 2) 페이징 기능 PageDTO 구성(페이지 번호에 기능 구현)
 		int total = boardService.getTotalCount(cri);
 		
-		log.info("데이터 갯수" + total);
+//		PageDTO pageDTO = new PageDTO(cri, total);
+//		model.addAttribute("pageMaker", pageDTO);
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
-		PageDTO pageDTO = new PageDTO(cri, total);
-		model.addAttribute("pageMaker", pageDTO);
+//		log.info("페이징 정보" + cri);
+	}
+	
+	@GetMapping("/get")
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
+		
+		log.info("게시물번호 : " + bno);
+		log.info("페이징과 검색정보" + cri);
+		
+		BoardVO board = boardService.get(bno);
+		model.addAttribute("board", board);
 	}
 }

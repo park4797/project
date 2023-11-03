@@ -112,6 +112,17 @@
 									</div>
 									<div class="col-6">
 										<form action="/board/list" method="get">
+
+											<!-- 검색어 작업 -->
+											<select name="type">
+												<option selected>검색종류</option>
+												<option value="T" ${pageMaker.cri.type == 'T' ? 'selected' : ''}>제목</option>
+												<option value="C" ${pageMaker.cri.type == 'W' ? 'selected' : ''}>내용</option>
+												<option value="W" ${pageMaker.cri.type == 'C' ? 'selected' : ''}>작성자</option>
+												<option value="TC" ${pageMaker.cri.type == 'TC' ? 'selected' : ''}>제목 or 내용</option>
+												<option value="TW" ${pageMaker.cri.type == 'TW' ? 'selected' : ''}>제목 or 작성자</option>
+												<option value="TWC" ${pageMaker.cri.type == 'TWC' ? 'selected' : ''}>제목 or 작성자 or 내용</option>
+											</select>
 											<input type="text" name="keyword" value="${pageMaker.cri.keyword}" />
 											<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}" />
 											<input type="hidden" name="amount" value="${pageMaker.cri.amount}" />
@@ -141,5 +152,47 @@
 	</footer>
 	<%@include file="/WEB-INF/views/comm/plug-in.jsp" %>
 
+	<script>
+
+		// 1) 페이지 번호 클릭시 동작되는 이벤트 작업
+		let actionForm = document.getElementById("actionForm"); // 페이징데이터 참조
+		const movePages = document.getElementsByClassName("movepage"); // 목록데이터 참조
+
+		Array.from(movePages).forEach(function(mv_page) {
+			mv_page.addEventListener("click", function(event) {
+				event.preventDefault();
+				// console.log("페이지 번호", event.target.dataset.page);
+
+				document.getElementById("pageNum").value = event.target.dataset.page;
+				// pageNum의 value에 dataset.page를 불러와 삽입
+
+				actionForm.setAttribute("action", "/board/list");
+				actionForm.submit(); // board/list로 전송
+			})
+		});
+
+		// 2) 제목클릭시 이벤트 설정
+		const moves = document.getElementsByClassName("move");
+		Array.from(moves).forEach(function(move) {
+			move.addEventListener("click", function(event) {
+				event.preventDefault();
+
+				document.getElementById("bno").remove();
+
+				let bno = event.target.dataset.bno;
+
+				const newInput = document.createElement("input");
+				newInput.setAttribute("type", "hidden");
+				newInput.setAttribute("name", "bno");
+				newInput.setAttribute("id", "bno");
+				newInput.setAttribute("value", bno);
+				actionForm.appendChild(newInput);
+
+				actionForm.setAttribute("action", "/board/get");
+
+				actionForm.submit();
+			})
+		})
+	</script>
 </body>
 </html>

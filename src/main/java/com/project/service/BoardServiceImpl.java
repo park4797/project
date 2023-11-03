@@ -36,4 +36,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.getTotalCount(cri);
 	}
 
+	@Override
+	public BoardVO get(Long bno) {
+		return boardMapper.get(bno);
+	}
+
 }

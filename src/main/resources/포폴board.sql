@@ -24,11 +24,14 @@ FROM (
 	    SELECT /*+INDEX_DESC(board pk_board) */
 	    ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
 		FROM BOARD
-		WHERE  ROWNUM <= #{pagenum} * #{amount}
+		WHERE  ROWNUM <= ? * ?
 	)
-		WHERE rn > (#{pagenum} -1) * #{amount}
+		WHERE rn > ? * ?
 </SELECT>
 
 SELECT COUNT(*)
 FROM BOARD
 WHERE BNO > 0
+
+SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE
+FROM BOARD WHERE BNO = ?;

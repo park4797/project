@@ -21,29 +21,62 @@
 			BNO DESC
 	</select>
 	 -->
+	 <sql id="criteria">
+ 		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+ 			<foreach collection="typeArr" item="type"><!-- getType() 동작 -->
+ 				<trim prefix="OR">
+ 					<choose>
+		 				<when test="type == 'T'.toString()">
+		 					title like '%' || #{keyword} || '%'
+		 				</when>
+		 				<when test="type == 'W'.toString()">
+		 					writer like '%' || #{keyword} || '%'
+		 				</when>
+		 				<when test="type == 'C'.toString()">
+		 					content like '%' || #{keyword} || '%'
+		 				</when>
+ 					</choose>
+ 				</trim>
+ 			</foreach>
+ 		</trim>
+ 	</sql>
+	 
 	 <select id="getListWithPaging" resultType="com.project.domain.BoardVO" parameterType="com.project.domain.Criteria">
 	 	<![CDATA[
 		SELECT
-			BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+			BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE, VIEWCOUNT
 		FROM (
 		      SELECT /*+INDEX_DESC(board pk_board) */
-		      	ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+		      	ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE, VIEWCOUNT
 		      FROM 
 		      	BOARD
 		      WHERE
-			    ROWNUM <= #{pagenum} * #{amount}
+		      ]]>
+		      <include refid="criteria"></include>
+		      
+		      <![CDATA[
+			    ROWNUM <= #{pageNum} * #{amount}
 			 )
 		WHERE
-			rn > (#{pagenum} -1) * #{amount}
+			rn > (#{pageNum} -1) * #{amount}
 		]]>
 	 </select>
 	 
 	 <select id="getTotalCount" resultType="int" parameterType="com.project.domain.Criteria">
- 		SELECT
- 			COUNT(*)
- 		FROM
- 			BOARD
- 		WHERE
- 			BNO > 0
+ 		SELECT COUNT(*)	FROM BOARD WHERE
+ 		
+ 		<include refid="criteria"></include>
+ 			
+ 		BNO > 0 <!-- 검색을 사용하지 않으면 -->
 	</select>
+	
+	<select id="get" parameterType="Long" resultType="com.project.domain.BoardVO">
+		SELECT
+			BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE
+		FROM
+			BOARD
+		WHERE
+			BNO = #{bno}
+	</select>
+	
 </mapper>
