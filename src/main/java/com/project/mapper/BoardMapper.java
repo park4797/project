@@ -18,4 +18,7 @@ public interface BoardMapper {
 	
 	// 게시물 읽기
 	BoardVO get(Long bno);
+	
+	// 게시물 수정
+	BoardVO modify(BoardVO board);
 }

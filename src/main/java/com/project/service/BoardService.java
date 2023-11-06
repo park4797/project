@@ -15,4 +15,6 @@ public interface BoardService {
 	int getTotalCount(Criteria cri); // 총 데이터 수
 	
 	BoardVO get(Long bno);
+	
+	BoardVO modify(BoardVO board);
 }

@@ -19,10 +19,10 @@ INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
 SELECT SEQ_BOARD.NEXTVAL, TITLE, CONTENT, WRITER FROM BOARD;
 
 
-SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE, VIEWCOUNT
 FROM (
 	    SELECT /*+INDEX_DESC(board pk_board) */
-	    ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
+	    ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE, VIEWCOUNT
 		FROM BOARD
 		WHERE  ROWNUM <= ? * ?
 	)
@@ -33,5 +33,49 @@ SELECT COUNT(*)
 FROM BOARD
 WHERE BNO > 0
 
-SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE
+SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, MDFDATE
 FROM BOARD WHERE BNO = ?;
+
+CREATE SEQUENCE SEQ_BOARD;
+drop sequence seq_board;
+
+INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
+VALUES(SEQ_BOARD.NEXTVAL, '사과', '과일', 'juicy');
+
+INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
+SELECT SEQ_BOARD.NEXTVAL, TITLE, CONTENT, WRITER FROM BOARD;
+
+
+UPDATE BOARD SET viewcount = 0;
+
+commit;
+
+SELECT * FROM BOARD;
+
+SELECT COUNT(*)
+FROM BOARD
+WHERE BNO > 0
+
+<sql id="criteria">
+ 		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+ 			<foreach collection="typeArr" item="type"><!-- getType() 동작 -->
+ 				<trim prefix="OR">
+ 					<choose>
+		 				<when test="type == 'T'.toString()">
+		 					title like '%' || #{keyword} || '%'
+		 				</when>
+		 				<when test="type == 'W'.toString()">
+		 					writer like '%' || #{keyword} || '%'
+		 				</when>
+		 				<when test="type == 'C'.toString()">
+		 					content like '%' || #{keyword} || '%'
+		 				</when>
+ 					</choose>
+ 				</trim>
+ 			</foreach>
+ 		</trim>
+ 	</sql>
+
+UPDATE BOARD
+SET TITLE, CONTENT, MDFDATE = SYSDATE
+WHERE BNO = #BNO;

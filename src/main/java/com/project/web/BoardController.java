@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.BoardVO;
 import com.project.domain.Criteria;
@@ -66,7 +67,7 @@ public class BoardController {
 //		log.info("페이징 정보" + cri);
 	}
 	
-	@GetMapping("/get")
+	@GetMapping({"/get", "/modify"})
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		
 		log.info("게시물번호 : " + bno);
@@ -74,5 +75,17 @@ public class BoardController {
 		
 		BoardVO board = boardService.get(bno);
 		model.addAttribute("board", board);
+	}
+	
+	@PostMapping("/modify")
+	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+		
+		log.info("수정데이터" + board);
+		log.info("페이지정보" + cri);
+		
+		// DB 저장
+		boardService.modify(board);
+		
+		return "redirect:/board/list";
 	}
 }
