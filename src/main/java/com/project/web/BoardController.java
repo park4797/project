@@ -86,6 +86,6 @@ public class BoardController {
 		// DB 저장
 		boardService.modify(board);
 		
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 }

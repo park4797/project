@@ -56,12 +56,12 @@
     		<div class="col-md-12"> <!-- <tr> 하나에 <td>를 하나만 쓰겠다는 의미 -->
     			<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title mt-5">Get</h3> <!-- mt-5 : bootstrap의 margin-top -->
+						<h3 class="box-title mt-5">게시물 읽기</h3> <!-- mt-5 : bootstrap의 margin-top -->
 					</div>
 					<!-- 절대경로 /board/register -->
 						<div class="box-body">
 						<div class="form-group">
-							<label for="title">번호</label>
+							<label for="bno">번호</label>
 							<input type="text" class="form-control" name="bno" id="bno" value="${board.bno}" readonly="readonly">
 						</div>
 						<div class="form-group">
@@ -77,11 +77,11 @@
 							<textarea class="form-control" rows="3" name="content" readonly>${board.content}</textarea>
 						</div>
 						<div class="form-group">
-							<label for="title">등록일</label>
+							<label for="regdate">등록일</label>
 							<input type="text" class="form-control" name="regdate" id="regdate" value='<fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/>' readonly>
 						</div>
 						<div class="form-group">
-							<label for="title">수정일</label>
+							<label for="mdfdate">수정일</label>
 							<input type="text" class="form-control" name="mdfdate" id="mdfdate" value='<fmt:formatDate value="${board.mdfdate}" pattern="yyyy-MM-dd"/>' readonly>
 						</div>
 						
@@ -119,7 +119,9 @@
 		let curListInfo = document.getElementById("curListInfo");
 
 		// 수정 클릭시 작업
-		document.getElementById("btn_modify").addEventListner("click", btn_modify);
+		
+
+		document.getElementById("btn_modify").addEventListener("click", btn_modify);
 
 		function btn_modify() {
 			curListInfo.setAttribute("action", "/board/modify");
@@ -127,14 +129,14 @@
 		}
 
 		// 삭제 클릭시 작업
-		document.getElementById("btn_delete").addEventListner("click", btn_delete);
+		document.getElementById("btn_delete").addEventListener("click", btn_delete);
 
 		function btn_delete() {
-			if(!confirm("삭제 하시겠습니까?")) return;
+			if(!confirm("삭제하시겠습니까?")) return;
 			curListInfo.setAttribute("action", "/board/delete");
 			curListInfo.submit();
 		}
-		
+
 		// 목록 클릭시 작업
 		document.getElementById("btn_list").addEventListener("click", btn_list);
 

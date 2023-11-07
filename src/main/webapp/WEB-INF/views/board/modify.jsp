@@ -56,32 +56,32 @@
     		<div class="col-md-12"> <!-- <tr> 하나에 <td>를 하나만 쓰겠다는 의미 -->
     			<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title mt-5">Get</h3> <!-- mt-5 : bootstrap의 margin-top -->
+						<h3 class="box-title mt-5">게시물 수정</h3> <!-- mt-5 : bootstrap의 margin-top -->
 					</div>
 					<!-- 절대경로 /board/register -->
 						<div class="box-body">
 						<div class="form-group">
-							<label for="title">번호</label>
+							<label for="bno">번호</label>
 							<input type="text" class="form-control" name="bno" id="bno" value="${board.bno}" readonly="readonly">
 						</div>
 						<div class="form-group">
 							<label for="title">제목</label>
-							<input type="text" class="form-control" name="title" id="title" value="${board.title}" readonly>
+							<input type="text" class="form-control" name="title" id="title" value="${board.title}">
 						</div>
 						<div class="form-group">
 							<label for="writer">작성자</label>
 							<input type="text" class="form-control" name="writer" id="writer" value="${board.writer}" readonly>
 						</div>
 						<div class="form-group">
-							<label>Content</label>
-							<textarea class="form-control" rows="3" name="content" readonly>${board.content}</textarea>
+							<label>내용</label>
+							<textarea class="form-control" rows="3" name="content">${board.content}</textarea>
 						</div>
 						<div class="form-group">
-							<label for="title">등록일</label>
+							<label for="regdate">등록일</label>
 							<input type="text" class="form-control" name="regdate" id="regdate" value='<fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/>' readonly>
 						</div>
 						<div class="form-group">
-							<label for="title">수정일</label>
+							<label for="mdfdate">수정일</label>
 							<input type="text" class="form-control" name="mdfdate" id="mdfdate" value='<fmt:formatDate value="${board.mdfdate}" pattern="yyyy-MM-dd"/>' readonly>
 						</div>
 						
@@ -98,9 +98,9 @@
 								<input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
 								<input type="hidden" name="bno" id="bno" value="${board.bno}" />
 							</form>
-							<button type="button" id="btn_modify" class="btn btn-primary">수정</button>
+							<button type="submit" class="btn btn-primary">저장</button>
 							<button type="button" id="btn_delete" class="btn btn-primary">삭제</button>
-							<button type="button" id="btn_list" class="btn btn-primary">목록</button>
+							<button type="button" id="btn_list" class="btn btn-primary">취소</button>
 						</div>
 				</div>
     		</div>
@@ -116,32 +116,23 @@
 <%@include file="/WEB-INF/views/comm/plug-in.jsp" %>  
 
 	<script>
-		let curListInfo = document.getElementById("curListInfo");
+	
+	// 목록버튼 클릭시 작업
+	document.getElementById("btn_list").addEventListener("click", fn_list);
 
-		// 수정 클릭시 작업
-		document.getElementById("btn_modify").addEventListner("click", btn_modify);
+	function fn_list() {
+    	location.href = "/board/list?pageNum=${cri.pageNum}"
+    	if(!confirm("수정을 취소 하시겠습니까?")) return;
+	  }
 
-		function btn_modify() {
-			curListInfo.setAttribute("action", "/board/modify");
-			curListInfo.submit();
-		}
-
-		// 삭제 클릭시 작업
-		document.getElementById("btn_delete").addEventListner("click", btn_delete);
-
-		function btn_delete() {
-			if(!confirm("삭제 하시겠습니까?")) return;
-			curListInfo.setAttribute("action", "/board/delete");
-			curListInfo.submit();
-		}
-		
-		// 목록 클릭시 작업
-		document.getElementById("btn_list").addEventListener("click", btn_list);
-
-		function btn_list() {
-			curListInfo.setAttribute("action", "/board/list");
-			curListInfo.submit();
-		}
+	// 삭제버튼 클릭시 작업
+	document.getElementById("btn_delete").addEventListener("click", btn_delete);
+	
+	function btn_delete() {
+		if(!confirm("삭제 하시겠습니까?")) return;
+		curListInfo.setAttribute("action", "/board/delete");
+		curListInfo.submit();
+	}
 	</script>
 
   </body>

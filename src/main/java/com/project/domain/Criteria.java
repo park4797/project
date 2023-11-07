@@ -1,7 +1,9 @@
 package com.project.domain;
 
-import lombok.Setter;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -29,5 +31,17 @@ public class Criteria {
 	public String[] getTypeArr() {
 		
 		return type == null? new String[] {} : type.split("");
+	}
+	
+	// 여러개의 파라미터를 연결하기 위한 작업
+	public String getListLink() {
+		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.amount)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword);
+		
+		return builder.toUriString();
 	}
 }
