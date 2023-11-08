@@ -58,10 +58,15 @@
 					<div class="box-header with-border">
 						<h3 class="box-title mt-5">게시물 수정</h3> <!-- mt-5 : bootstrap의 margin-top -->
 					</div>
-					<!-- 절대경로 /board/register -->
+					<form role="form" method="post" action="./modify">
 						<div class="box-body">
 						<div class="form-group">
 							<label for="bno">번호</label>
+								<input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
+								<input type="hidden" name="amount" id="amount" value="${cri.amount}" />
+								<input type="hidden" name="type" id="type" value="${cri.type}" />
+								<input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
+								<!-- <input type="hidden" name="bno" id="bno" value="${board.bno}" /> -->
 							<input type="text" class="form-control" name="bno" id="bno" value="${board.bno}" readonly="readonly">
 						</div>
 						<div class="form-group">
@@ -78,11 +83,11 @@
 						</div>
 						<div class="form-group">
 							<label for="regdate">등록일</label>
-							<input type="text" class="form-control" name="regdate" id="regdate" value='<fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/>' readonly>
+							<input type="text" class="form-control" name="regdate" id="regdate" value='<fmt:formatDate value="${board.regdate}" pattern="yyyy/MM/dd"/>' readonly>
 						</div>
 						<div class="form-group">
 							<label for="mdfdate">수정일</label>
-							<input type="text" class="form-control" name="mdfdate" id="mdfdate" value='<fmt:formatDate value="${board.mdfdate}" pattern="yyyy-MM-dd"/>' readonly>
+							<input type="text" class="form-control" name="mdfdate" id="mdfdate" value='<fmt:formatDate value="${board.mdfdate}" pattern="yyyy/MM/dd"/>' readonly>
 						</div>
 						
 						</div>
@@ -91,17 +96,12 @@
 						Modify, Delete, List 버튼 클릭시 아래 form 태그를 전송
 						버튼을 눌렀을때의 action을 지정하여 받기 위해 action을 공백으로 두었다.
 						-->
-							<form id="curListInfo" action="" method="get">
-								<input type="hidden" name="pageNum" id="pageNum" value="${cri.pageNum}" />
-								<input type="hidden" name="amount" id="amount" value="${cri.amount}" />
-								<input type="hidden" name="type" id="type" value="${cri.type}" />
-								<input type="hidden" name="keyword" id="keyword" value="${cri.keyword}" />
-								<input type="hidden" name="bno" id="bno" value="${board.bno}" />
-							</form>
+							
 							<button type="submit" class="btn btn-primary">저장</button>
 							<button type="button" id="btn_delete" class="btn btn-primary">삭제</button>
 							<button type="button" id="btn_list" class="btn btn-primary">취소</button>
 						</div>
+					</form>
 				</div>
     		</div>
     	</div>

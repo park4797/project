@@ -38,12 +38,21 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public BoardVO get(Long bno) {
+		
+		// 조회스 증가 작업
+		boardMapper.viewcount(bno);
+		
 		return boardMapper.get(bno);
 	}
 
 	@Override
-	public BoardVO modify(BoardVO board) {
-		return boardMapper.modify(board);
+	public void modify(BoardVO board) {
+		boardMapper.modify(board);
+	}
+
+	@Override
+	public void delete(Long bno) {
+		boardMapper.delete(bno);
 	}
 
 }

@@ -79,13 +79,29 @@
 			BNO = #{bno}
 	</select>
 	
-	<update id="modify" parameterType="com.project.domain.BoardVO">
-		UPDATE
-			BOARD
-		SET
-			TITLE = #{title}, CONTENT = #{content}, MDFDATE = SYSDATE
+	<update id="modify" parameterType="com.project.domain.BoardVO" >
+ 		UPDATE
+ 			BOARD
+ 		SET
+ 			TITLE = #{title}, CONTENT = #{content}, MDFDATE = SYSDATE
 		WHERE
-			BNO = #{bno};
+			BNO = #{bno}
+ 	</update>
+ 	
+ 	<update id="viewcount" parameterType="Long">
+ 		UPDATE
+ 			BOARD
+ 		SET
+ 			VIEWCOUNT = VIEWCOUNT +1
+ 		WHERE
+ 			BNO = #{bno}
 	</update>
+	
+	<delete id="delete" parameterType="com.project.domain.BoardVO">
+		DELETE FROM
+			BOARD
+		WHERE
+			BNO = #{bno}
+	</delete>
 	
 </mapper>

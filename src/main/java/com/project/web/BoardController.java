@@ -33,7 +33,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/register")
-	public String register(BoardVO vo) {
+	public String register(BoardVO vo) throws Exception {
 		
 		log.info("작성내용" + vo);
 		
@@ -68,7 +68,7 @@ public class BoardController {
 	}
 	
 	@GetMapping({"/get", "/modify"})
-	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
+	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		
 		log.info("게시물번호 : " + bno);
 		log.info("페이징과 검색정보" + cri);
@@ -78,13 +78,21 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) throws Exception {
 		
 		log.info("수정데이터" + board);
 		log.info("페이지정보" + cri);
 		
 		// DB 저장
 		boardService.modify(board);
+		
+		return "redirect:/board/list" + cri.getListLink();
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) throws Exception {
+		
+		boardService.delete(bno);
 		
 		return "redirect:/board/list" + cri.getListLink();
 	}

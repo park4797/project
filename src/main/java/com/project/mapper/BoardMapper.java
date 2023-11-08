@@ -20,5 +20,9 @@ public interface BoardMapper {
 	BoardVO get(Long bno);
 	
 	// 게시물 수정
-	BoardVO modify(BoardVO board);
+	void modify(BoardVO board);
+	
+	void viewcount(Long bno);
+	
+	void delete(Long bno);
 }
