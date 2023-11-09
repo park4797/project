@@ -91,9 +91,10 @@
 <%@include file="/WEB-INF/views/comm/plug-in.jsp" %>  
 
 <script>
-	document.getElementById("btnCancle").addEventListener("click", "btnCancle");
+	document.getElementById("btnCancle").addEventListener("click", btnCancle);
 
   function btnCancle() {
+    if(!confirm("취소하시겠습니까?")) return;
     location.href = "/board/list"
   }
 </script>

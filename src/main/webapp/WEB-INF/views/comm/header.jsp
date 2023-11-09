@@ -1,26 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Fixed navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/board/list">게시판<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+    
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">Pak Mall</a></h5>
+	<div>
+	</div>
+  <nav class="my-2 my-md-0 mr-md-3">
+  
+  	<!-- 로그인 이전 표시  -->
+	    <a class="p-2 text-dark" href="/member/login">로그인</a>
+	    <a class="p-2 text-dark" href="/member/join">회원가입</a>
+		<a class="p-2 text-dark" href="/board/list">게시판</a>
+    <!-- 로그인 이후 표시 -->
+	    <a class="p-2 text-dark" href="/member/logout">로그아웃</a>
+	    <a class="p-2 text-dark" href="/member/confirmPw">Modify</a>
+	    <a class="p-2 text-dark" href="/member/mypage">MyPage</a>
+    
+	    <a class="p-2 text-dark" href="#">Order</a>
+	    <a class="p-2 text-dark" href="#">Cart</a>
+	    
+	    <a class="p-2 text-dark" href="/admin/intro">[Admin]</a>
   </nav>
+</div>
