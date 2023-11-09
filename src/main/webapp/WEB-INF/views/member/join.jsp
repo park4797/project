@@ -58,7 +58,7 @@
               <input type="text" class="form-control" name="user_id" id="user_id" placeholder="아이디 입력">
             </div>
             <div class="col-2">
-              <button type="button" class="btn btn-outline-info" id="">중복체크</button>
+              <button type="button" class="btn btn-outline-info" id="idCheck">중복체크</button>
             </div>
           </div>
 
@@ -96,7 +96,7 @@
           <div class="form-group row">
             <label for="authCode" class="col-2">인증번호</label> 
             <div class="col-8">
-              <input type="text" class="form-control" name="authCode" id="authCode" placeholder="">
+              <input type="text" class="form-control" name="authCode" id="authCode" placeholder="인증번호 입력">
             </div>
             <div class="col-2">
               <button type="button" class="btn btn-outline-info">인증확인</button>
@@ -149,8 +149,44 @@
 </div>
 
 	<%@ include file="/WEB-INF/views/comm/plugIn.jsp" %>
-  <!--$가 정의가 안되어 있다하면 pulgIn 내부의 주소를 참조하지 못하는 것-->
+  <script>
+    $(document).ready(function() {
 
+      // 아이디 중복체크 사용유무
+      let useIdCheck = false;
+
+      $("#idCheck").on("click", function() {
+        // alert("아이디 중복체크");
+        if($("#user_id").val() == "") {
+          alert("아이디를 입력하세요");
+          $("#user_id").focus();
+          return;
+        }
+
+      // 아이디 중복체크 작업
+      $.ajax({
+        url : "/member/idCheck",
+        type : "get",
+        dataType : "text", // String
+        data : {user_id : $("#user_id").val()},
+        // data : {폼데이터변수 : QueryString}
+        success : function(result) {
+          if(result == "yes") {
+            alert("아이디 사용가능");
+            useIdCheck = true;
+          } else {
+            alert("아이디 사용불가");
+            useIdCheck = false;
+            $("#user_id").val(""); // ID 텍스트 박스 공백처리
+            $("#user_id").focus();
+          }
+        }
+      });
+      
+    });
+    
+  });//
+  </script>
   </body>
 </html>
     
