@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.domain.BoardVO;
 import com.project.domain.Criteria;
-import com.project.domain.PageDTO;
+import com.project.dto.PageDTO;
 import com.project.service.BoardService;
 
 import lombok.RequiredArgsConstructor;

@@ -2,6 +2,7 @@ package com.project.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,8 @@ public class MemberController {
 
 	private final MemberService memberService;
 	
+	private final PasswordEncoder passwordEncoder;
+	
 	@GetMapping("/join")
 	public void join() {
 		
@@ -32,9 +35,14 @@ public class MemberController {
 		
 		log.info(vo);
 		
+		// 비밀번호 암호화
+		vo.setUser_password(passwordEncoder.encode(vo.getUser_password()));
+		
+//		log.info("암호화 비밀번호 " + vo.getUser_password());
+		
 		memberService.join(vo);
 		
-		return "redirect:/";
+		return "redirect:/member/login";
 	}
 	
 	@GetMapping("/idCheck")
@@ -55,5 +63,10 @@ public class MemberController {
 		entity = new ResponseEntity<String>(idUse, HttpStatus.OK);
 		
 		return entity;
+	}
+	
+	@GetMapping("/login")
+	public void login() {
+		
 	}
 }

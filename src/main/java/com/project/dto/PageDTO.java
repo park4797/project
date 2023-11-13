@@ -1,4 +1,6 @@
-package com.project.domain;
+package com.project.dto;
+
+import com.project.domain.Criteria;
 
 import lombok.Getter;
 import lombok.Setter;
