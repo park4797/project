@@ -54,11 +54,11 @@
 
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">로그인</h3>
+        <h3 class="box-title">회원정보 수정</h3>
       </div>
 
 
-      <form role="form" id="loginForm" method="post" action="/member/login">
+      <form role="form" id="loginForm" method="post" action="/member/confirm_info">
         <div class="box-body">
           <div class="form-group row">
             <label for="user_id" class="col-2">아이디</label>
@@ -76,7 +76,7 @@
         </div>
         
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">로그인</button>
+          <button type="submit" class="btn btn-primary">확인</button>
         </div>
       </form>
     </div>
