@@ -36,5 +36,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void loginTimeUpdate(String user_id) {
 		memberMapper.loginTimeUpdate(user_id);
+	}
+
+	@Override
+	public void delete(String user_id) {
+		memberMapper.delete(user_id);
 	} 
 }

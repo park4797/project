@@ -54,11 +54,11 @@
 
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">회원수정 인증</h3>
+        <h3 class="box-title">회원탈퇴 인증</h3>
       </div>
 
 
-      <form role="form" id="loginForm" method="post" action="/member/confirm_info">
+      <form role="form" id="del_confirm_info" method="post" action="/member/delete">
         <div class="box-body">
           <div class="form-group row">
             <label for="user_id" class="col-2">아이디</label>
@@ -76,7 +76,7 @@
         </div>
         
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">확인</button>
+          <button type="submit" class="btn btn-primary" id="btn_del_user">회원탈퇴</button>
         </div>
       </form>
     </div>
@@ -89,6 +89,16 @@
 	<%@ include file="/WEB-INF/views/comm/plugIn.jsp" %>
   <!--$가 정의가 안되어 있다하면 pulgIn 내부의 주소를 참조하지 못하는 것-->
 
+  <script>
+    $(document).ready(function() {
+
+      $("#btn_del_user").on("click", function() {
+        if(confirm("정말 삭제하시겠습니까?")) {
+          alert("회원 탈퇴되었습니다.");
+        }
+      })
+    });
+  </script>
   </body>
 </html>
     

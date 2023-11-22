@@ -91,6 +91,7 @@ public class MemberController {
 		// 아이디 일치시
 		if(db_vo != null) {
 			// 사용자가 입력한 비밀번호와 DB에서 가져온 비밀번호 일치여부 검사
+			// passwordEncoder.matches 사용시 사용자가 입력한 평문 텍스트와 DB상의 PW 데이터를 스프링에서 비교해준다.
 			if(passwordEncoder.matches(dto.getUser_password(), db_vo.getUser_password())) {
 				
 				// 로그인 성공결과를 세션에 저장
@@ -143,6 +144,7 @@ public class MemberController {
 		
 		
 		if(db_vo != null) {
+			// matches
 			if(passwordEncoder.matches(dto.getUser_password(), db_vo.getUser_password())) {
 				
 				session.setAttribute("loginStatus", db_vo);
@@ -202,7 +204,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	  // 마이페이지
+	// 마이페이지
 	@GetMapping("/mypage")
 	public void mypage(HttpSession session, Model model) throws Exception {
 		  
@@ -212,4 +214,46 @@ public class MemberController {
 		model.addAttribute("memberVO", db_vo);
 	}
 	  
+	// 회원탈퇴 인증
+	@GetMapping("/del_confirm_info")
+	public void delete() {
+		
+	}
+	
+	// 회원탈퇴 작업
+	@PostMapping("/delete")
+	public String delete(LoginDTO dto, HttpSession session, RedirectAttributes rttr) throws Exception {
+		// LoginDTO 현재 로그인한 대상의 ID와 PW, session에 존재하는 id의 정보 
+		
+//		log.info("로그인 정보" + dto);
+		
+		// 기존 confirm_info에서 작업한 내용과 유사
+		MemberVO db_vo = memberService.login(dto.getUser_id()); // 로그인한 유저의 id 값을 가져온다.
+		
+		String url = "";
+		String msg = "";
+
+		if(db_vo != null) {
+			if(passwordEncoder.matches(dto.getUser_password(), db_vo.getUser_password())) {
+				url = "/";
+				session.invalidate();
+				
+				// 현재 로그인한 user의 id값을 가져와 삭제 작업
+				memberService.delete(dto.getUser_id());
+			} else {
+				url = "/member/del_confirm_info";
+				msg = "비밀번호가 일치하지 않습니다.";
+				rttr.addFlashAttribute("msg", msg);
+			}
+			
+		} else {
+			url = "member/del_confirm_info";
+			msg = "아이디가 일치하지 않습니다.";
+			rttr.addAttribute("msg", msg);
+		}
+		
+		return "redirect:" + url;
+	}
+		
+		
 }

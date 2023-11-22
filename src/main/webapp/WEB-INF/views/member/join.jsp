@@ -362,7 +362,6 @@
 
       joinForm.submit();
     })
-    
   });//
   </script>
   </body>

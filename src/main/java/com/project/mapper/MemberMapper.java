@@ -18,4 +18,7 @@ public interface MemberMapper {
 	
 	// header에 로그인 시간 밑 간략한 정보 출력
 	void loginTimeUpdate(String user_id);
+	
+	// 회원탈퇴
+	void delete(String user_id);
 }

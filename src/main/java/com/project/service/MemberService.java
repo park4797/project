@@ -13,4 +13,6 @@ public interface MemberService {
 	void modify(MemberVO vo);
 	
 	void loginTimeUpdate(String user_id);
+	
+	void delete(String user_id);
 }

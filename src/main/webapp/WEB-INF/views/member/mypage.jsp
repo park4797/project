@@ -46,7 +46,7 @@
 
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">회원정보 수정</h3>
+        <h3 class="box-title">마이페이지</h3>
       </div>
 
 
@@ -118,11 +118,8 @@
 	<%@ include file="/WEB-INF/views/comm/plugIn.jsp" %>
   <script>
     $(document).ready(function() {
-
-      let userDelete = $("#userForm");
-
       $("#btn_user_delete").click(function() {
-        userDelete.submit(); // 폼전송
+        location.href="/member/del_confirm_info";
       })
     });
   </script>

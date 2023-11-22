@@ -1,84 +1,81 @@
--- 게시판 작업
-CREATE TABLE BOARD (
-    BNO             NUMBER,
-    TITLE           VARCHAR2(100)   NOT NULL,
-    CONTENT         VARCHAR2(1000)  NOT NULL,
-    WRITER          VARCHAR2(100)   NOT NULL,
-    REGDATE         DATE    DEFAULT SYSDATE,
-    MDFDATE         DATE    DEFAULT SYSDATE,
-    VIEWCOUNT       NUMBER DEFAULT 0,
-    CONSTRAINT PK_BOARD PRIMARY KEY(BNO)
+-- user info 작업(어떤 홈페이지를 사용할건지 확인후 작업)
+-- 회원가입 테이블
+CREATE TABLE USER_INFO(
+        USER_ID             VARCHAR2(15),
+        USER_NAME           VARCHAR2(30)            NOT NULL,
+        USER_EMAIL          VARCHAR2(50)            NOT NULL,
+        USER_PASSWORD       CHAR(60)               NOT NULL,
+        USER_ZIPCODE        CHAR(6)                 NOT NULL,
+        USER_ADDR           VARCHAR2(100)            NOT NULL,
+        USER_DEADDR         VARCHAR2(100)            NOT NULL,
+        USER_PHONE          VARCHAR2(15)            NOT NULL,
+        USER_POINT          NUMBER DEFAULT 0        NOT NULL,
+        USER_LASTLOGIN      DATE DEFAULT SYSDATE    NOT NULL,
+        USER_DATESUB        DATE DEFAULT SYSDATE    NOT NULL,
+        USER_UPDATEDATE     DATE DEFAULT SYSDATE    NOT NULL
 );
 
-CREATE SEQUENCE SEQ_BOARD;
+DROP TABLE USER_INFO;
 
-INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
-VALUES(SEQ_BOARD.NEXTVAL, '사과', '과일', 'juicy');
+ALTER TABLE USER_INFO
+ADD CONSTRAINT PK_USER_ID PRIMARY KEY (USER_ID);
 
-INSERT INTO BOARD(BNO, TITLE, CONTENT, WRITER)
-SELECT SEQ_BOARD.NEXTVAL, TITLE, CONTENT, WRITER FROM BOARD;
+-- 회원이 입력한 정보 받기
+INSERT INTO USER_INFO(USER_ID, USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ZIPCODE, USER_ADDR, USER_DEADDR, USER_PHONE)
+VALUES(#{} ~);
+-- user_info(user_id, user_name, user_email, user_password, user_zipcode, user_addr, user_deaddr, user_phone
 
-drop sequence seq_board;
+SELECT * FROM USER_INFO;
 
-UPDATE BOARD SET viewcount = 0;
+-- 아이디, 비밀번호 유효성 검사
+SELECT * FROM USER_INFO WHERE USER_ID = 'user01' and USER_PASSWORD = '1234';
 
-commit;
+-- 아이디 중복체크
+SELECT USER_ID FROM USER_INFO WHERE USER_ID = USER_ID;
 
-SELECT * FROM BOARD;
+SELECT USER_ID, USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ZIPCODE, USER_ADDR, USER_DEADDR, USER_PHONE FROM USER_INFO WHERE USER_ID = 'user01';
 
-<SELECT id="getListWithPaging" resultType="com.demo.domain.BoardVO" parameterType="com.demo.domain.Criteria">
-		<![CDATA[
-		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
-		FROM (
-		      SELECT /*+INDEX_DESC(board pk_board) */
-		      	ROWNUM rn, BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE, VIEWCOUNT
-		      FROM 
-		      	BOARD
-		      WHERE
-		      ]]>
-		      <!-- refid : reference id -->
-		      <include refid="criteria"></include>
-		      
-		      <![CDATA[
-		      ROWNUM <= 1 * 10
-			 )
-		WHERE rn > (1 -1) * 10;
-		]]>
- 	</SELECT>
+DELETE FROM
+    USER_INFO
+WHERE
+    USER_ID = #{}
 
-SELECT COUNT(*)
-FROM BOARD
-WHERE BNO > 0
+-- 로그인 작업
+SELECT USER_PASSWORD FROM USER_INFO WHERE USER_ID = ?;
 
-<sql id="criteria">
- 	<!-- prefixOverrides : 실행될 쿼리의 <trim> 문 안에 쿼리 가장 앞에 해당하는 문자들이 있으면 자동으로 지워준다 -->
- 		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
- 			<foreach collection="typeArr" item="type"><!-- getType() 동작 -->
- 				<trim prefix="OR">
- 					<choose>
-		 				<when test="type == 'T'.toString()">
-		 					title like '%' || #{keyword} || '%'
-		 				</when>
-		 				<when test="type == 'W'.toString()">
-		 					writer like '%' || #{keyword} || '%'
-		 				</when>
-		 				<when test="type == 'C'.toString()">
-		 					content like '%' || #{keyword} || '%'
-		 				</when>
- 					</choose>
- 				</trim>
- 			</foreach>
- 		</trim>
- 	</sql>
+-- 회원정보 수정시 로그인 세션의 정보를 가져가기 위해 컬럼 추가
+SELECT
+    USER_ID, USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ZIPCODE, USER_ADDR, USER_DEADDR, USER_PHONE, USER_POINT, USER_LASTLOGIN, USER_DATESUB, USER_UPDATEDATE
+FROM
+    USER_INFO
+WHERE
+    USER_ID = ?;
+
+-- 회원정보 수정
+UPDATE
+    USER_INFO
+SET
+    USER_EMAIL = #{},
+    USER_ZIPCODE = #{},
+    USER_ADDR = #{},
+    USER_DEADDR = #{},
+    USER_PHONE = #{}
+WHERE
+    USER_ID = #{}
     
-SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDDATE
-FROM BOARD WHERE BNO = ?;
+-- 회원수정시 로그인 시간 업데이트
+UPDATE
+    USER_INFO
+SET
+    USER_EMAIL = #{},
+    USER_LASTLOGIN = #{}
+WHERE
+    USER_ID = #{}
 
-UPDATE BOARD
-SET TITLE, CONTENT, MDFDATE = SYSDATE
-WHERE BNO = #BNO;
-
--- 조회수 작업
-<UPDATE id="readCount" parameterType="Long">
- 		UPDATE BOARD SET VIEWCOUNT = VIEWCOUNT +1 WHERE BNO = #{bno}
-</update>
+-- 회원탈퇴
+DELETE FROM
+    USER_INFO
+WHERE
+    USER_ID = #{}
+    
+commit;

@@ -61,5 +61,11 @@
 		WHERE
 		    USER_ID = #{user_id}
 	</update>
+	<delete id="delete" parameterType="String">
+		DELETE FROM
+		    USER_INFO
+		WHERE
+		    USER_ID = #{user_id}
+	</delete>
 	
 </mapper>
