@@ -33,7 +33,7 @@ public class AdminController {
 	
 	@PostMapping("/admin_ok")
 	public String admin_ok(AdminVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
-		// 기존의 로그인 작업과 유사
+		// 기존의 로그인 작업과 동일
 		
 		log.info("관리자 로그인 : " + vo);
 		
@@ -48,7 +48,10 @@ public class AdminController {
 				// 비밀번호 일치시 세션에 저장
 				session.setAttribute("adminStatus", db_vo);
 				
-				url = "#";
+				// 로그인 시간 업데이트
+				adminService.loginTime(vo.getAdmin_id());
+				
+				url = "/admin/admin_menu";
 				
 			} else {
 				url = "/admin/intro";
@@ -58,11 +61,24 @@ public class AdminController {
 				
 		} else {
 			url = "/admin/intro";
-			msg = "failPW";
+			msg = "failID";
 			rttr.addFlashAttribute("msg", msg);
 		}
 		
-		return "redirect:/" + url;
+		return "redirect:" + url;
 	}
 	
+	// 관리자 메뉴 페이지
+	@GetMapping("/admin_menu")
+	public void admin_menu() {
+		
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session){
+		
+		session.invalidate(); // 서버측의 session 메모리 삭제
+		
+		return "redirect:/admin/intro";
+	}
 }

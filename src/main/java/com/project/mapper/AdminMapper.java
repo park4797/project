@@ -6,4 +6,6 @@ public interface AdminMapper {
 
 	// 관리자 로그인 작업
 	AdminVO admin_ok(String admin_id);
+	
+	void loginTime(String admin_id);
 }

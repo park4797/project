@@ -40,11 +40,11 @@ pageEncoding="UTF-8"%>
     
 <form class="form-signin" action="/admin/admin_ok" method="post">
   <img class="mb-4" src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">Admin Login</h1>
-  <label for="inputEmail" class="sr-only">ID</label>
-  <input type="text" id="admin_id" value="admin" class="form-control" placeholder="ID입력" required autofocus>
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="admin_pw" value="1234" class="form-control" placeholder="Password 입력" required>
+  <h1 class="h3 mb-3 font-weight-normal">관리자</h1>
+  <label for="inputId" class="sr-only">ID</label>
+  <input type="text" name="admin_id" id="admin_id" value="admin" class="form-control" placeholder="ID입력" required autofocus>
+  <label for="inputPW" class="sr-only">Password</label>
+  <input type="password" name="admin_pw" id="admin_pw" value="1234" class="form-control" placeholder="Password 입력" required>
   <div class="checkbox mb-3">
     <label>
     </label>

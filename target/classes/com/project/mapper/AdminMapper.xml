@@ -4,12 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
 <mapper namespace="com.project.mapper.AdminMapper">
+
 	<select id="admin_ok" parameterType="String" resultType="com.project.domain.AdminVO">
-		SELECT 
-		    ADMIN_ID, ADMIN_PW, ADMIN_LOGIN_TIME
-		FROM
+		SELECT
+			ADMIN_ID, ADMIN_PW, ADMIN_LOGIN_TIME
+	    FROM
+	        ADMIN_TBL
+	    WHERE
+	        ADMIN_ID= #{admin_id}
+	</select>
+	
+	<update id="loginTime" parameterType="String">
+		UPDATE
 		    ADMIN_TBL
+		SET
+		    ADMIN_LOGIN_TIME = SYSDATE
 		WHERE
 		    ADMIN_ID = #{admin_id}
-	</select>
+	</update>
+	
 </mapper>
