@@ -13,10 +13,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdCategoryServiceImpl implements AdCategoryService {
 
-	private final AdCategoryMapper categoryMapper;
+	private final AdCategoryMapper adCategoryMapper;
 
 	@Override
 	public List<CategoryVO> getFirstCategoryList() {
-		return categoryMapper.getFirstCategoryList();
+		return adCategoryMapper.getFirstCategoryList();
 	}
+
+	@Override
+	public List<CategoryVO> getSecondCategoryList(Integer cg_parent_code) {
+		return adCategoryMapper.getSecondCategoryList(cg_parent_code);
+	}
+
+
+
+	
+	
 }
