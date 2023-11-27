@@ -75,7 +75,7 @@ desired effect
               </div>
               <div class="col-sm-3">
                 <!-- name과 ProductVO의 변수명이 일치해야 한다. -->
-                <select class="form-control" id="secondCategory" name="cg_name">
+                <select class="form-control" id="secondCategory" name="cg_code">
                   <option>2차 카테고리 선택</option>
                 </select>
               </div>
@@ -84,54 +84,54 @@ desired effect
             <div class="form-group row">
               <label for="" class="col-sm-2">상품명</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" name="" id="">
+                <input type="text" class="form-control" name="pro_name" id=""pro_name>
               </div>
-              <label for="" class="col-sm-2">상품명</label>
+              <label for="" class="col-sm-2">상품가격</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" name="" id="">
+                <input type="text" class="form-control" name="pro_price" id="pro_price">
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-2"></label>
+              <label for="" class="col-sm-2">할인율</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" name="" id="">
+                <input type="text" class="form-control" name="pro_discount" id="pro_discount">
               </div>
-              <label for="" class="col-sm-2"></label>
+              <label for="" class="col-sm-2">제조사</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" name="" id="">
+                <input type="text" class="form-control" name="pro_publisher" id="pro_publisher">
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-2"></label>
+              <label for="" class="col-sm-2">상품이미지</label>
               <div class="col-sm-4">
-                <input type="" class="form-control" name="" id="">
+                <input type="file" class="form-control" name="" id="">
               </div>
-              <label for="" class="col-sm-2"></label>
+              <label for="" class="col-sm-2">미리보기 이미지</label>
               <div class="col-sm-4">
                 <img id="" style="width:200px; height:200px;">
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-2 col-form-label"></label>
+              <label for="" class="col-sm-2 col-form-label">상품설명</label>
               <div class="col-sm-10">
-                <textarea class="form-control" name="" id="" rows="3"></textarea>
+                <textarea class="form-control" name="pro_content" id="pro_content" rows="3"></textarea>
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-2"></label>
+              <label for="" class="col-sm-2">수량</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" name="" id="">
+                <input type="text" class="form-control" name="pro_amount" id="pro_amount">
               </div>
-              <label for="" class="col-sm-2 col-form-label"></label>
+              <label for="" class="col-sm-2 col-form-label">판매여부</label>
               <div class="col-sm-4">
-                <select class="form-control" id="" name="">
+                <select class="form-control" id="pro_buy" name="pro_buy">
                   <!-- value값이 없으면 "판매가능", "판매불가능"이 값으로 들어간다 -->
-                  <option>판매가능</option>
-                  <option>판매불가능</option>
+                  <option value="Y">판매가능</option>
+                  <option value="N">판매불가능</option>
                 </select>
               </div>
             </div>
@@ -274,6 +274,8 @@ desired effect
           secondCategory.append(optionStr); // 2차카테고리에 <option> 태그들을 추가
         })
       });
+
+      
     });
   </script>
 
