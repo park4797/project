@@ -106,11 +106,11 @@ desired effect
             <div class="form-group row">
               <label for="" class="col-sm-2">상품이미지</label>
               <div class="col-sm-4">
-                <input type="file" class="form-control" name="" id="">
+                <input type="file" class="form-control" name="uploadFile" id="uploadFile">
               </div>
-              <label for="" class="col-sm-2">미리보기 이미지</label>
+              <label for="img_preview" class="col-sm-2">미리보기 이미지</label>
               <div class="col-sm-4">
-                <img id="" style="width:200px; height:200px;">
+                <img id="img_preview" style="width:200px; height:200px;">
               </div>
             </div>
 
@@ -275,7 +275,18 @@ desired effect
         })
       });
 
-      
+      // 파일 첨부시 이미지 미리보기
+      $("#uploadFile").change(function(event) {
+        let file = event.target.files[0]; // 선택한 파일 중 첫번쨰
+        
+        // FileReader() : 첨부된 파일을 이용하여, File 객체를 생성하는 용도
+        let reader = new FileReader();
+        reader.readAsDataURL(file); // reader 객체에 file객체가(정보가) 할당된다.
+
+        reader.onload = function(event) {
+          $("#img_preview").attr("src", event.target.result);
+        }
+      })
     });
   </script>
 

@@ -49,10 +49,7 @@
 		
 	</beans:bean>
 	
-	<!--
-	메인, 썸네일 이미지 업로드 폴더경로 설정
-	String uploadPath = new String("C:\\dev\\upload\\product\\")
-	-->
+	<!-- 메인, 썸네일 이미지 업로드 폴더경로 설정 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="C:\\dev\\devTools\\upload\\product\\"></beans:constructor-arg>
 	</beans:bean>

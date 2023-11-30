@@ -30,6 +30,7 @@ public class FileUtils {
 		// File.separator : 각 운영체제별로 경로 구분자 반환
 		return str.replace("-", File.separator);
 	}
+	
 	// MultipartFile 큰 파일을 쪼개서 업로드 할 수 있게 해준다.
 	public static String uploadFile(String uploadFolder, String dateFolder, MultipartFile uploadFile) {
 		
